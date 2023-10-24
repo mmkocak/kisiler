@@ -87,7 +87,9 @@ class _HomePageState extends State<HomePage> {
                                   action: SnackBarAction(
                                     label: "Evet",
                                     onPressed: () {
-                                      print("Kişi Sil: ${kisi.kisiid}");
+                                      context
+                                          .read<HomeCubit>()
+                                          .sil(kisi.kisiid);
                                     },
                                   ),
                                 ),

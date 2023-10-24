@@ -18,4 +18,9 @@ class HomeCubit extends Cubit<List<Persons>> {
     var liste = await prepo.kisiAra(aramaKelimesi);
     emit(liste);
   }
+
+  Future<void> sil(int kisiiD) async {
+    await prepo.kisiSil(kisiiD);
+    await kisilerYukle();
+  }
 }

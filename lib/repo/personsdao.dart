@@ -22,8 +22,12 @@ class Persondao {
 
   Future<List<Persons>> kisiAra(String kisiara) async {
     var kisilerListesi = <Persons>[];
-    var k1 = Persons(kisiid: 1, kidiad: "Muhammed", kisiTell: "7876");
+    var k1 = Persons(kisiid: 1, kidiad: "Ahmmed", kisiTell: "7876");
     kisilerListesi.add(k1);
     return kisilerListesi;
+  }
+
+  Future<void> kisiSil(int kisiiD) async {
+    print("Kişi Sil $kisiiD");
   }
 }
