@@ -1,33 +1,52 @@
 import 'package:kisiler/entity/persons.dart';
+import 'package:kisiler/sqflite/veritabani_yardimcisi.dart';
 
 class Persondao {
   Future<void> kisiKayit(String kisiAdd, String kisiTell) async {
-    ("Kişi kayıt $kisiAdd , $kisiTell");
+    var db = await VeritabaniYardimcisi.veriTabaniErisim();
+    var bilgiler = Map<String, dynamic>();
+    bilgiler["kisi_ad"] = kisiAdd;
+    bilgiler["kisi_tel"] = kisiTell;
+    await db.insert("kisiler", bilgiler);
   }
 
   Future<void> kisiGuncelle(int kisiiD, String kisiAdd, kisiTell) async {
-    print("Kişi Guncelle $kisiiD , $kisiAdd  , $kisiTell");
+    var db = await VeritabaniYardimcisi.veriTabaniErisim();
+    var bilgiler = Map<String, dynamic>();
+    bilgiler["kisi_ad"] = kisiAdd;
+    bilgiler["kisi_tel"] = kisiTell;
+    await db
+        .update("kisiler", bilgiler, where: "kisi_id = ?", whereArgs: [kisiiD]);
   }
 
   Future<List<Persons>> tumKisileriAl() async {
-    var kisilerListesi = <Persons>[];
-    var k1 = Persons(kisiid: 1, kidiad: "Muhammed", kisiTell: "7876");
-    var k2 = Persons(kisiid: 2, kidiad: "Ali", kisiTell: "5677");
-    var k3 = Persons(kisiid: 3, kidiad: "Ahmet", kisiTell: "1298");
-    kisilerListesi.add(k1);
-    kisilerListesi.add(k2);
-    kisilerListesi.add(k3);
-    return kisilerListesi;
+    var db = await VeritabaniYardimcisi.veriTabaniErisim();
+    List<Map<String, dynamic>> maps =
+        await db.rawQuery("SELECT * FROM kisiler");
+    return List.generate(maps.length, (i) {
+      var satir = maps[i];
+      return Persons(
+          kisiid: satir["kisi_id"],
+          kidiad: satir["kisi_ad"],
+          kisiTell: satir["kisi_tel"]);
+    });
   }
 
   Future<List<Persons>> kisiAra(String kisiara) async {
-    var kisilerListesi = <Persons>[];
-    var k1 = Persons(kisiid: 1, kidiad: "Ahmmed", kisiTell: "7876");
-    kisilerListesi.add(k1);
-    return kisilerListesi;
+    var db = await VeritabaniYardimcisi.veriTabaniErisim();
+    List<Map<String, dynamic>> maps = await db
+        .rawQuery("SELECT * FROM kisiler WHERE kisi_ad Like'%$kisiara%' ");
+    return List.generate(maps.length, (i) {
+      var satir = maps[i];
+      return Persons(
+          kisiid: satir["kisi_id"],
+          kidiad: satir["kisi_ad"],
+          kisiTell: satir["kisi_tel"]);
+    });
   }
 
   Future<void> kisiSil(int kisiiD) async {
-    print("Kişi Sil $kisiiD");
+    var db = await VeritabaniYardimcisi.veriTabaniErisim();
+    await db.delete("kisiler", where: "kisi_id=?", whereArgs: [kisiiD]);
   }
 }

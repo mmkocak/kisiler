@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                             builder: (context) => PersonDetail(
                                   kisi: kisi,
                                 ))).then((value) {
-                      print("Çalıştı");
+                      context.read<HomeCubit>().kisilerYukle();
                     });
                   },
                   child: Card(
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
                   MaterialPageRoute(
                       builder: (context) => const PersonRegistration()))
               .then((value) {
-            print("Çalıştı");
+            context.read<HomeCubit>().kisilerYukle();
           });
         },
         child: const Icon(Icons.add),
