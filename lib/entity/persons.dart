@@ -1,8 +1,7 @@
 class Persons {
-  int kisi_id;
-  String kisi_ad;
-  String kisi_tel;
+  int kisiid;
+  String kidiad;
+  String kisiTell;
 
-  Persons(
-      {required this.kisi_id, required this.kisi_ad, required this.kisi_tel});
+  Persons({required this.kisiid, required this.kidiad, required this.kisiTell});
 }

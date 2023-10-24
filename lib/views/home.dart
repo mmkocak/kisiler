@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisiler/cubit/home_cubit.dart';
 import 'package:kisiler/entity/persons.dart';
 import 'package:kisiler/views/person_detail.dart';
 import 'package:kisiler/views/person_registration.dart';
@@ -13,15 +15,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool aramaYapiliyormu = false;
 
-  Future<List<Persons>> tumKisileriGoster() async {
-    var kisilerListesi = <Persons>[];
-    var k1 = Persons(kisi_id: 1, kisi_ad: "Muhammed", kisi_tel: "8743");
-    var k2 = Persons(kisi_id: 2, kisi_ad: "Hasan", kisi_tel: "5688");
-    var k3 = Persons(kisi_id: 3, kisi_ad: "Hüseyin", kisi_tel: "2390");
-    kisilerListesi.add(k1);
-    kisilerListesi.add(k2);
-    kisilerListesi.add(k3);
-    return kisilerListesi;
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().kisilerYukle();
   }
 
   @override
@@ -33,7 +30,7 @@ class _HomePageState extends State<HomePage> {
             ? TextField(
                 decoration: const InputDecoration(hintText: "Ara"),
                 onChanged: (aramaSonucu) {
-                  print("Arama Sonucu: $aramaSonucu");
+                  context.read<HomeCubit>().kisilerara(aramaSonucu);
                 },
               )
             : const Text("Kişiler "),
@@ -45,6 +42,7 @@ class _HomePageState extends State<HomePage> {
                     setState(() {
                       aramaYapiliyormu = false;
                     });
+                    context.read<HomeCubit>().kisilerYukle();
                   },
                 )
               : IconButton(
@@ -57,13 +55,11 @@ class _HomePageState extends State<HomePage> {
                 ),
         ],
       ),
-      body: FutureBuilder<List<Persons>>(
-        future: tumKisileriGoster(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var kisilerListesi = snapshot.data;
+      body: BlocBuilder<HomeCubit, List<Persons>>(
+        builder: (context, kisilerListesi) {
+          if (kisilerListesi.isNotEmpty) {
             return ListView.builder(
-              itemCount: kisilerListesi!.length,
+              itemCount: kisilerListesi.length,
               itemBuilder: (context, index) {
                 var kisi = kisilerListesi[index];
                 return GestureDetector(
@@ -81,17 +77,17 @@ class _HomePageState extends State<HomePage> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(children: [
-                        Text("${kisi.kisi_ad} - ${kisi.kisi_tel}"),
+                        Text("${kisi.kidiad} - ${kisi.kisiTell}"),
                         const Spacer(),
                         IconButton(
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text("${kisi.kisi_ad} Silinsin mi?"),
+                                  content: Text("${kisi.kidiad} Silinsin mi?"),
                                   action: SnackBarAction(
                                     label: "Evet",
                                     onPressed: () {
-                                      print("Kişi Sil: ${kisi.kisi_id}");
+                                      print("Kişi Sil: ${kisi.kisiid}");
                                     },
                                   ),
                                 ),

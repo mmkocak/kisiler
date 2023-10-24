@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisiler/cubit/person_registration_detail_cubit.dart';
 import 'package:kisiler/entity/persons.dart';
 
 class PersonDetail extends StatefulWidget {
@@ -16,14 +18,11 @@ class _PersonDetailState extends State<PersonDetail> {
   void initState() {
     super.initState();
     var kisi = widget.kisi;
-    kisiAd.text = kisi.kisi_ad;
-    kisiTel.text = kisi.kisi_tel;
+    kisiAd.text = kisi.kidiad;
+    kisiTel.text = kisi.kisiTell;
   }
 
-  Future<void> Guncelle(int kisi_id, String kisi_ad, String kisi_tel) async {
-    print(" Kişi Güncelle: $kisi_id - $kisi_ad - $kisi_tel");
-  }
-
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +44,9 @@ class _PersonDetailState extends State<PersonDetail> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Guncelle(widget.kisi.kisi_id, kisiAd.text, kisiTel.text);
+                  context
+                      .read<PersonRegistrationDetailCubit>()
+                      .guncelle(widget.kisi.kisiid, kisiAd.text, kisiTel.text);
                 },
                 child: const Text("Güncelle"),
               ),

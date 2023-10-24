@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kisiler/cubit/person_registration_cubit.dart';
+import 'package:kisiler/repo/personsdao.dart';
 
 class PersonRegistration extends StatefulWidget {
   const PersonRegistration({super.key});
@@ -10,10 +13,6 @@ class PersonRegistration extends StatefulWidget {
 class _PersonRegistrationState extends State<PersonRegistration> {
   var kisiAd = TextEditingController();
   var kisiTel = TextEditingController();
-
-  Future<void> kayit(String kisi_ad, String kisi_tel) async {
-    print(" Kişi Kayıt: $kisi_ad, - $kisi_tel");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +37,9 @@ class _PersonRegistrationState extends State<PersonRegistration> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  kayit(kisiAd.text, kisiTel.text);
+                  context
+                      .read<PersonRegistrationCubit>()
+                      .kayit(kisiAd.text, kisiTel.text);
                 },
                 child: const Text("Kaydet"),
               ),
