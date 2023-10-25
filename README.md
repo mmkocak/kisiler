@@ -1,16 +1,23 @@
-# kisiler
+# Bloc Cubit kullanım örneği
 
-A new Flutter project.
+Merhaba👋 Bloc pattern ve sqlite kullanarak kişiler uygulamasını yaptım 
+### Kullanılan Paketler
 
-## Getting Started
+``` 
+flutter_bloc: ^8.1.3
+path: ^1.8.3
+sqflite: ^2.3.0
+```
 
-This project is a starting point for a Flutter application.
+### Bazı Görseller
 
-A few resources to get you started if this is your first Flutter project:
+#### Anasayfa Ekran Görüntüsü
+<img src="screenshout/Screenshot_1698249867.png" width="320" height="640">
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+#### Kayıt Ol Ekran Görüntüsü
+<img src="screenshout/Screenshot_1698249874.png" alt="Flutter kişiler uygulaması" width="320" height="640">
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+#### Güncelle Ekran Görüntüsü
+<img src="screenshout/Screenshot_1698249882.png" alt="Flutter kişiler uygulaması" width="320" height="640">
+
+
